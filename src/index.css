@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Importar variáveis CSS customizadas */
+@import './styles/variables.css';
+
+/* Estilos globais adicionais */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #f8fafc;
+  }
+}
+
+@layer components {
+  /* Componentes customizados podem ser adicionados aqui */
+}
+
+@layer utilities {
+  /* Utilitários customizados podem ser adicionados aqui */
+}
