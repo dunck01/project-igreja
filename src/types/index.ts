@@ -1,4 +1,4 @@
-// Tipos principais da aplicação
+// Tipos principais da aplicaï¿½ï¿½o
 export interface Event {
   id: string;
   title: string;
@@ -112,9 +112,63 @@ export type DietaryRestriction =
   | 'outros';
 
 export type EventCategory =
-  | 'Conferência'
+  | 'ConferÃªncia'
   | 'Retiro'
   | 'Jovens'
-  | 'Família'
+  | 'FamÃ­lia'
   | 'Culto'
   | 'Especial';
+
+// Tipos para configuraÃ§Ãµes do site
+export interface SiteConfig {
+  general: {
+    siteName: string;
+    siteDescription: string;
+    contactEmail: string;
+    contactPhone: string;
+    address: string;
+  };
+  hero: {
+    title: string;
+    subtitle: string;
+    backgroundImage: string;
+    ctaText: string;
+    ctaLink: string;
+  };
+  about: {
+    title: string;
+    content: string;
+    image: string;
+  };
+  services: {
+    title: string;
+    items: ServiceItem[];
+  };
+  contact: {
+    title: string;
+    subtitle: string;
+    address: string;
+    phone: string;
+    email: string;
+    mapUrl: string;
+  };
+  social: {
+    facebook?: string;
+    instagram?: string;
+    youtube?: string;
+    whatsapp?: string;
+  };
+}
+
+export interface ServiceItem {
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+  image?: string;
+}
+
+export interface AdminPanelProps {
+  onSave: (config: Partial<SiteConfig>) => void;
+  currentConfig: SiteConfig;
+}

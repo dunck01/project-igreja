@@ -11,15 +11,18 @@ import Testimonials from './components/pages/Testimonials';
 import Contact from './components/pages/Contact';
 import Footer from './components/layout/Footer';
 import AdminDashboard from './components/registration/AdminDashboard';
+import AdminPanel from './components/admin/AdminPanel';
 import RegistrationConfirmation from './components/registration/RegistrationConfirmation';
 
 function App() {
-  const [currentView, setCurrentView] = useState<'main' | 'admin' | 'confirmation'>('main');
+  const [currentView, setCurrentView] = useState<'main' | 'admin' | 'admin-panel' | 'confirmation'>('main');
 
   const renderView = () => {
     switch (currentView) {
       case 'admin':
         return <AdminDashboard />;
+      case 'admin-panel':
+        return <AdminPanel />;
       case 'confirmation':
         return <RegistrationConfirmation />;
       default:
@@ -43,7 +46,7 @@ function App() {
 
   return (
     <div className="min-h-screen">
-      {/* NavegaÁ„o Admin (tempor·ria para demonstraÁ„o) */}
+      {/* Navega√ß√£o Admin (tempor√°ria para demonstra√ß√£o) */}
       <div className="fixed top-4 right-4 z-50 bg-white p-2 rounded-lg shadow-lg border">
         <div className="flex space-x-2">
           <button
@@ -56,13 +59,19 @@ function App() {
             onClick={() => setCurrentView('admin')}
             className={`px-3 py-1 text-sm rounded ${currentView === 'admin' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
           >
-            Admin
+            Inscri√ß√µes
+          </button>
+          <button
+            onClick={() => setCurrentView('admin-panel')}
+            className={`px-3 py-1 text-sm rounded ${currentView === 'admin-panel' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
+          >
+            Personalizar
           </button>
           <button
             onClick={() => setCurrentView('confirmation')}
             className={`px-3 py-1 text-sm rounded ${currentView === 'confirmation' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
           >
-            ConfirmaÁ„o
+            Confirma√ß√£o
           </button>
         </div>
       </div>

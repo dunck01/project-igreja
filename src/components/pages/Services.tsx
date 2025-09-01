@@ -1,7 +1,9 @@
-import React from 'react';
 import { Clock, Calendar, Users, Music } from 'lucide-react';
+import { useSiteConfig } from '../../hooks/useSiteConfig';
 
 const Services = () => {
+  const { config } = useSiteConfig();
+
   const services = [
     {
       icon: Music,
@@ -43,7 +45,7 @@ const Services = () => {
         {/* Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-            Horários de Cultos
+            {config.services.title}
           </h2>
           <div className="w-24 h-1 bg-yellow-500 mx-auto mb-8"></div>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
