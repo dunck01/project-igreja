@@ -32,7 +32,7 @@ const RegistrationConfirmation: React.FC<RegistrationConfirmationProps> = ({ reg
         });
       }
     } else {
-      // Para demonstraÃ§Ã£o, pegar a Ãºltima inscriÃ§Ã£o
+      // Para demonstração, pegar a última inscrição
       const lastRegistration = registrations[registrations.length - 1];
       if (lastRegistration) {
         setRegistration(lastRegistration);
@@ -52,14 +52,14 @@ const RegistrationConfirmation: React.FC<RegistrationConfirmationProps> = ({ reg
 
   const handleEditSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Aqui seria implementada a lÃ³gica para atualizar a inscriÃ§Ã£o
-    // Por enquanto, apenas fechar o modo de ediÃ§Ã£o
+    // Aqui seria implementada a lógica para atualizar a inscrição
+    // Por enquanto, apenas fechar o modo de edição
     setIsEditing(false);
-    alert('InformaÃ§Ãµes atualizadas com sucesso!');
+    alert('Informações atualizadas com sucesso!');
   };
 
   const handleCancelRegistration = () => {
-    if (registration && window.confirm('Tem certeza que deseja cancelar sua inscriÃ§Ã£o?')) {
+    if (registration && window.confirm('Tem certeza que deseja cancelar sua inscrição?')) {
       updateRegistrationStatus(registration.id, 'cancelled');
       setRegistration({ ...registration, status: 'cancelled' });
     }
@@ -69,8 +69,8 @@ const RegistrationConfirmation: React.FC<RegistrationConfirmationProps> = ({ reg
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">InscriÃ§Ã£o nÃ£o encontrada</h1>
-          <p className="text-gray-600">Verifique se o link estÃ¡ correto ou entre em contato conosco.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">Inscrição não encontrada</h1>
+          <p className="text-gray-600">Verifique se o link está correto ou entre em contato conosco.</p>
         </div>
       </div>
     );
@@ -81,18 +81,18 @@ const RegistrationConfirmation: React.FC<RegistrationConfirmationProps> = ({ reg
   return (
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header de ConfirmaÃ§Ã£o */}
+        {/* Header de Confirmação */}
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
             <CheckCircle className="h-16 w-16 text-green-500" />
           </div>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            {registration.status === 'confirmed' ? 'InscriÃ§Ã£o Confirmada!' : 'Status da InscriÃ§Ã£o'}
+            {registration.status === 'confirmed' ? 'Inscrição Confirmada!' : 'Status da Inscrição'}
           </h1>
           <p className="text-lg text-gray-600">
             {registration.status === 'confirmed'
-              ? 'Sua participaÃ§Ã£o estÃ¡ garantida neste evento.'
-              : `Sua inscriÃ§Ã£o estÃ¡ ${registration.status === 'pending' ? 'pendente' : 'cancelada'}.`
+              ? 'Sua participação está garantida neste evento.'
+              : `Sua inscrição está ${registration.status === 'pending' ? 'pendente' : 'cancelada'}.`
             }
           </p>
         </div>
@@ -123,10 +123,10 @@ const RegistrationConfirmation: React.FC<RegistrationConfirmationProps> = ({ reg
               </div>
 
               <div className="bg-gray-50 p-4 rounded-lg">
-                <h4 className="font-semibold text-gray-900 mb-2">InformaÃ§Ãµes da InscriÃ§Ã£o</h4>
+                <h4 className="font-semibold text-gray-900 mb-2">Informações da Inscrição</h4>
                 <div className="space-y-2 text-sm">
-                  <p><strong>ID da InscriÃ§Ã£o:</strong> {registration.id}</p>
-                  <p><strong>Data da InscriÃ§Ã£o:</strong> {new Date(registration.createdAt).toLocaleDateString('pt-BR')}</p>
+                  <p><strong>ID da Inscrição:</strong> {registration.id}</p>
+                  <p><strong>Data da Inscrição:</strong> {new Date(registration.createdAt).toLocaleDateString('pt-BR')}</p>
                   <p><strong>Status:</strong>
                     <span className={`ml-2 px-2 py-1 rounded-full text-xs font-medium ${
                       registration.status === 'confirmed' ? 'bg-green-100 text-green-800' :
@@ -143,17 +143,17 @@ const RegistrationConfirmation: React.FC<RegistrationConfirmationProps> = ({ reg
           </div>
         )}
 
-        {/* InformaÃ§Ãµes do Participante */}
+        {/* Informações do Participante */}
         <div className="bg-white rounded-lg shadow-sm border p-6 mb-6">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-bold text-gray-900">Suas Informaï¿½ï¿½es</h2>
+            <h2 className="text-xl font-bold text-gray-900">Suas Informações</h2>
             {registration.status !== 'cancelled' && (
               <button
                 onClick={() => setIsEditing(!isEditing)}
                 className="text-blue-600 hover:text-blue-800 flex items-center"
               >
                 <Edit className="h-4 w-4 mr-1" />
-                {isEditing ? 'Cancelar Ediï¿½ï¿½o' : 'Editar'}
+                {isEditing ? 'Cancelar Edição' : 'Editar'}
               </button>
             )}
           </div>
@@ -185,13 +185,13 @@ const RegistrationConfirmation: React.FC<RegistrationConfirmationProps> = ({ reg
               </div>
 
               <div>
-                <h3 className="font-semibold text-gray-900 mb-3">Informaï¿½ï¿½es Adicionais</h3>
+                <h3 className="font-semibold text-gray-900 mb-3">Informações Adicionais</h3>
                 <div className="space-y-3">
                   {registration.dietaryRestrictions && (
                     <div className="flex items-start">
                       <Utensils className="h-4 w-4 mr-2 text-gray-500 mt-0.5" />
                       <div>
-                        <span className="font-medium text-gray-700">Restriï¿½ï¿½es Alimentares:</span>
+                        <span className="font-medium text-gray-700">Restrições Alimentares:</span>
                         <p className="text-gray-900">{registration.dietaryRestrictions}</p>
                       </div>
                     </div>
@@ -206,7 +206,7 @@ const RegistrationConfirmation: React.FC<RegistrationConfirmationProps> = ({ reg
                     </div>
                   )}
                   {!registration.dietaryRestrictions && !registration.accessibilityNeeds && (
-                    <p className="text-gray-500 italic">Nenhuma informaï¿½ï¿½o adicional fornecida.</p>
+                    <p className="text-gray-500 italic">Nenhuma informação adicional fornecida.</p>
                   )}
                 </div>
               </div>
@@ -230,7 +230,7 @@ const RegistrationConfirmation: React.FC<RegistrationConfirmationProps> = ({ reg
                 <div>
                   <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
                     <Building className="h-4 w-4 mr-2" />
-                    OrganizaÃ§Ã£o
+                    Organização
                   </label>
                   <input
                     type="text"
@@ -244,7 +244,7 @@ const RegistrationConfirmation: React.FC<RegistrationConfirmationProps> = ({ reg
               <div>
                 <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
                   <Utensils className="h-4 w-4 mr-2" />
-                  Restriï¿½ï¿½es Alimentares
+                  Restrições Alimentares
                 </label>
                 <select
                   value={editForm.dietaryRestrictions}
@@ -254,7 +254,7 @@ const RegistrationConfirmation: React.FC<RegistrationConfirmationProps> = ({ reg
                   <option value="">Selecione</option>
                   <option value="vegetariano">Vegetariano</option>
                   <option value="vegano">Vegano</option>
-                  <option value="sem-gluten">Sem Glï¿½ten</option>
+                  <option value="sem-gluten">Sem Glúten</option>
                   <option value="alergia-nozes">Alergia a Nozes</option>
                   <option value="outros">Outros</option>
                 </select>
@@ -286,26 +286,26 @@ const RegistrationConfirmation: React.FC<RegistrationConfirmationProps> = ({ reg
                   type="submit"
                   className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                 >
-                  Salvar Alteraï¿½ï¿½es
+                  Salvar Alterações
                 </button>
               </div>
             </form>
           )}
         </div>
 
-        {/* Aï¿½ï¿½es */}
+        {/* Ações */}
         {registration.status !== 'cancelled' && (
           <div className="bg-white rounded-lg shadow-sm border p-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Aï¿½ï¿½es da Inscriï¿½ï¿½o</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-4">Ações da Inscrição</h2>
             <div className="flex flex-col sm:flex-row gap-4">
               <button
                 onClick={() => window.print()}
                 className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md"
               >
-                Imprimir Confirmaï¿½ï¿½o
+                Imprimir Confirmação
               </button>
               <button
-                onClick={() => window.location.href = `mailto:contato@igreja.com?subject=Informaï¿½ï¿½es sobre inscriï¿½ï¿½o ${registration.id}`}
+                onClick={() => window.location.href = `mailto:contato@igreja.com?subject=Informações sobre inscrição ${registration.id}`}
                 className="flex-1 bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md"
               >
                 Entrar em Contato
@@ -314,7 +314,7 @@ const RegistrationConfirmation: React.FC<RegistrationConfirmationProps> = ({ reg
                 onClick={handleCancelRegistration}
                 className="flex-1 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md"
               >
-                Cancelar Inscriï¿½ï¿½o
+                Cancelar Inscrição
               </button>
             </div>
           </div>

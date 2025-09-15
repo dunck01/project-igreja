@@ -26,19 +26,19 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ event, onClose, onS
     const newErrors: Partial<RegistrationFormData> = {};
 
     if (!formData.name.trim()) {
-      newErrors.name = 'Nome Ã© obrigatÃ³rio';
+      newErrors.name = 'Nome é obrigatório';
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = 'E-mail Ã© obrigatÃ³rio';
+      newErrors.email = 'E-mail é obrigatório';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'E-mail invÃ¡lido';
+      newErrors.email = 'E-mail inválido';
     }
 
     if (!formData.phone.trim()) {
-      newErrors.phone = 'Telefone Ã© obrigatÃ³rio';
+      newErrors.phone = 'Telefone é obrigatório';
     } else if (!/^\(?(\d{2})\)?\s?9?\d{4}-?\d{4}$/.test(formData.phone.replace(/\s/g, ''))) {
-      newErrors.phone = 'Telefone invÃ¡lido';
+      newErrors.phone = 'Telefone inválido';
     }
 
     setErrors(newErrors);
@@ -67,7 +67,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ event, onClose, onS
 
   const handleInputChange = (field: keyof RegistrationFormData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
-    // Limpar erro quando usuÃ¡rio comeÃ§ar a digitar
+    // Limpar erro quando usuário começa a digitar
     if (errors[field as keyof RegistrationErrors]) {
       setErrors(prev => ({ ...prev, [field]: undefined }));
     }
@@ -80,7 +80,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ event, onClose, onS
       <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         <div className="flex justify-between items-center p-6 border-b">
           <h2 className="text-2xl font-bold text-gray-900">
-            InscriÃ§Ã£o: {event.title}
+            Inscrição: {event.title}
           </h2>
           <button
             onClick={onClose}
@@ -94,7 +94,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ event, onClose, onS
           <div className="mb-6 p-4 bg-blue-50 rounded-lg">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-blue-600 font-medium">Vagas disponÃ­veis</p>
+                <p className="text-sm text-blue-600 font-medium">Vagas disponíveis</p>
                 <p className="text-2xl font-bold text-blue-800">{spotsLeft} de {event.capacity}</p>
               </div>
               <div className="text-right">
@@ -159,26 +159,26 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ event, onClose, onS
               {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
             </div>
 
-            {/* OrganizaÃ§Ã£o */}
+            {/* Organização */}
             <div>
               <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
                 <Building className="h-4 w-4 mr-2" />
-                OrganizaÃ§Ã£o/Empresa
+                Organização/Empresa
               </label>
               <input
                 type="text"
                 value={formData.organization}
                 onChange={(e) => handleInputChange('organization', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Nome da organizaÃ§Ã£o (opcional)"
+                placeholder="Nome da organização (opcional)"
               />
             </div>
 
-            {/* RestriÃ§Ãµes Alimentares */}
+            {/* Restrições Alimentares */}
             <div>
               <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
                 <Utensils className="h-4 w-4 mr-2" />
-                RestriÃ§Ãµes Alimentares
+                Restrições Alimentares
               </label>
               <select
                 value={formData.dietaryRestrictions}
@@ -188,7 +188,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ event, onClose, onS
                 <option value="">Selecione (opcional)</option>
                 <option value="vegetariano">Vegetariano</option>
                 <option value="vegano">Vegano</option>
-                <option value="sem-gluten">Sem GlÃºten</option>
+                <option value="sem-gluten">Sem Glúten</option>
                 <option value="alergia-nozes">Alergia a Nozes</option>
                 <option value="outros">Outros</option>
               </select>
@@ -209,7 +209,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ event, onClose, onS
               />
             </div>
 
-            {/* BotÃµes */}
+            {/* Botões */}
             <div className="flex justify-end space-x-4 pt-6 border-t">
               <button
                 type="button"
@@ -223,7 +223,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ event, onClose, onS
                 disabled={isSubmitting || spotsLeft <= 0}
                 className="px-6 py-2 bg-blue-800 text-white rounded-md hover:bg-blue-900 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
               >
-                {isSubmitting ? 'Enviando...' : spotsLeft <= 0 ? 'Esgotado' : 'Confirmar InscriÃ§Ã£o'}
+                {isSubmitting ? 'Enviando...' : spotsLeft <= 0 ? 'Esgotado' : 'Confirmar Inscrição'}
               </button>
             </div>
           </form>

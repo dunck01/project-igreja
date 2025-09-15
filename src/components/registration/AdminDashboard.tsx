@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { Users, Download, Search, Trash2, CheckCircle, XCircle, Clock } from 'lucide-react';
 import { useEvents, useRegistrations } from '../../hooks/useEventRegistration';
-import { Registration } from '../../types';
-import { Event } from '../../hooks/useEventRegistration';
+import { Registration, Event } from '../../types';
 
 const AdminDashboard = () => {
   const { events } = useEvents();
@@ -15,7 +14,7 @@ const AdminDashboard = () => {
   const filteredRegistrations = registrations.filter((registration: Registration) => {
     const matchesSearch = registration.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          registration.email.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus = statusFilter === 'all' || registration.status === statusFilter;
+    const matchesStatus = statusFilter === 'all' || registration.status.toLowerCase() === statusFilter;
     const matchesEvent = eventFilter === 'all' || registration.eventId === eventFilter;
 
     return matchesSearch && matchesStatus && matchesEvent;
@@ -23,11 +22,11 @@ const AdminDashboard = () => {
 
   const getEventTitle = (eventId: string) => {
     const event = events.find((e: Event) => e.id === eventId);
-    return event ? event.title : 'Evento não encontrado';
+  return event ? event.title : 'Evento não encontrado';
   };
 
   const getStatusColor = (status: string) => {
-    switch (status) {
+    switch (status.toLowerCase()) {
       case 'confirmed': return 'bg-green-100 text-green-800';
       case 'pending': return 'bg-yellow-100 text-yellow-800';
       case 'cancelled': return 'bg-red-100 text-red-800';
@@ -49,7 +48,7 @@ const AdminDashboard = () => {
   };
 
   const handleDeleteRegistration = (registrationId: string) => {
-    if (window.confirm('Tem certeza que deseja excluir esta inscrição?')) {
+  if (window.confirm('Tem certeza que deseja excluir esta inscrição?')) {
       deleteRegistration(registrationId);
     }
   };
@@ -74,7 +73,7 @@ const AdminDashboard = () => {
     const link = document.createElement('a');
     const url = URL.createObjectURL(blob);
     link.setAttribute('href', url);
-    link.setAttribute('download', 'inscrições.csv');
+    link.setAttribute('download', 'inscricoes.csv');
     link.style.visibility = 'hidden';
     document.body.appendChild(link);
     link.click();
@@ -82,9 +81,9 @@ const AdminDashboard = () => {
   };
 
   const totalRegistrations = registrations.length;
-  const confirmedRegistrations = registrations.filter((r: Registration) => r.status === 'confirmed').length;
-  const pendingRegistrations = registrations.filter((r: Registration) => r.status === 'pending').length;
-  const cancelledRegistrations = registrations.filter((r: Registration) => r.status === 'cancelled').length;
+  const confirmedRegistrations = registrations.filter((r: Registration) => r.status === 'CONFIRMED').length;
+  const pendingRegistrations = registrations.filter((r: Registration) => r.status === 'PENDING').length;
+  const cancelledRegistrations = registrations.filter((r: Registration) => r.status === 'CANCELLED').length;
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -95,7 +94,7 @@ const AdminDashboard = () => {
           <p className="text-gray-600">Gerencie as inscrições dos eventos</p>
         </div>
 
-        {/* Estatísticas */}
+  {/* Estatísticas */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <div className="bg-white p-6 rounded-lg shadow-sm border">
             <div className="flex items-center">
@@ -186,7 +185,7 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        {/* Tabela de Inscrições */}
+  {/* Tabela de Inscrições */}
         <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">

@@ -13,13 +13,13 @@
 
   body {
     background-color: #f8fafc;
+    color: #334155;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
   }
 }
 
 @layer components {
-  /* Componentes customizados podem ser adicionados aqui */
-}
-
-@layer utilities {
-  /* Utilitários customizados podem ser adicionados aqui */
+  .btn-primary {
+    @apply bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded transition-colors;
+  }
 }

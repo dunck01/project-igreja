@@ -1,15 +1,38 @@
-// Tipos principais da aplica��o
+// Tipos principais da aplicacao
+export interface EventImage {
+  id: string;
+  eventId: string;
+  url: string;
+  alt?: string;
+  isMain: boolean;
+  order: number;
+  createdAt: string;
+}
+
 export interface Event {
   id: string;
   title: string;
+  slug: string;
+  description: string;
+  shortDescription?: string;
   date: string;
   time: string;
   location: string;
-  description: string;
-  image: string;
+  image?: string;
   category: string;
   capacity: number;
   currentRegistrations: number;
+  price?: number;
+  isActive: boolean;
+  isFeatured: boolean;
+  tags?: string;
+  customFields?: string;
+  createdAt: string;
+  updatedAt: string;
+  eventImages?: EventImage[];
+  _count?: {
+    registrations: number;
+  };
 }
 
 export interface Registration {
@@ -21,11 +44,19 @@ export interface Registration {
   organization?: string;
   dietaryRestrictions?: string;
   accessibilityNeeds?: string;
+  customData?: string;
   status: RegistrationStatus;
   createdAt: string;
+  updatedAt: string;
+  event?: {
+    title: string;
+    date: string;
+    time: string;
+    location: string;
+  };
 }
 
-export type RegistrationStatus = 'confirmed' | 'pending' | 'cancelled';
+export type RegistrationStatus = 'PENDING' | 'CONFIRMED' | 'CANCELLED' | 'WAITLIST';
 
 export interface RegistrationFormData {
   name: string;
@@ -44,6 +75,30 @@ export interface RegistrationErrors {
   organization?: string;
   dietaryRestrictions?: string;
   accessibilityNeeds?: string;
+}
+
+// Tipos de autenticação
+export interface User {
+  id: string;
+  email: string;
+  name: string;
+  role: UserRole;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export type UserRole = 'ADMIN' | 'EDITOR' | 'VIEWER';
+
+export interface LoginFormData {
+  email: string;
+  password: string;
+}
+
+export interface AuthResponse {
+  message: string;
+  token: string;
+  user: User;
 }
 
 // Tipos para componentes
@@ -118,57 +173,3 @@ export type EventCategory =
   | 'Família'
   | 'Culto'
   | 'Especial';
-
-// Tipos para configurações do site
-export interface SiteConfig {
-  general: {
-    siteName: string;
-    siteDescription: string;
-    contactEmail: string;
-    contactPhone: string;
-    address: string;
-  };
-  hero: {
-    title: string;
-    subtitle: string;
-    backgroundImage: string;
-    ctaText: string;
-    ctaLink: string;
-  };
-  about: {
-    title: string;
-    content: string;
-    image: string;
-  };
-  services: {
-    title: string;
-    items: ServiceItem[];
-  };
-  contact: {
-    title: string;
-    subtitle: string;
-    address: string;
-    phone: string;
-    email: string;
-    mapUrl: string;
-  };
-  social: {
-    facebook?: string;
-    instagram?: string;
-    youtube?: string;
-    whatsapp?: string;
-  };
-}
-
-export interface ServiceItem {
-  id: string;
-  title: string;
-  description: string;
-  icon: string;
-  image?: string;
-}
-
-export interface AdminPanelProps {
-  onSave: (config: Partial<SiteConfig>) => void;
-  currentConfig: SiteConfig;
-}

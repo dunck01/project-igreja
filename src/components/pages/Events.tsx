@@ -1,35 +1,66 @@
-import { useState } from 'react';
+
+import React, { useState } from 'react';
 import { Calendar, MapPin, Clock, Users, UserPlus } from 'lucide-react';
 import RegistrationForm from '../registration/RegistrationForm';
-import { useEvents, useRegistrations, Event } from '../../hooks/useEventRegistration';
-import { RegistrationFormData } from '../../types';
+import { Event, RegistrationFormData } from '../../types';
+
+// Mock data para demonstração
+const mockEvents: Event[] = [
+  {
+    id: '1',
+    title: 'Conferência de Jovens 2024',
+    slug: 'conferencia-jovens-2024',
+    description: 'Uma conferência inspiradora para jovens cristãos com palestrantes renomados',
+    shortDescription: 'Conferência para jovens',
+    date: '2024-03-15',
+    time: '19:00',
+    location: 'Auditório Central',
+    image: 'https://images.pexels.com/photos/1708936/pexels-photo-1708936.jpeg?auto=compress&cs=tinysrgb&w=400&h=300',
+    category: 'Jovens',
+    capacity: 200,
+    currentRegistrations: 45,
+    price: 0,
+    isActive: true,
+    isFeatured: true,
+    createdAt: '2024-01-01T00:00:00Z',
+    updatedAt: '2024-01-01T00:00:00Z'
+  },
+  {
+    id: '2',
+    title: 'Retiro de Casais',
+    slug: 'retiro-casais',
+    description: 'Fim de semana especial para fortalecer os relacionamentos matrimoniais',
+    shortDescription: 'Retiro para casais',
+    date: '2024-04-20',
+    time: '15:00',
+    location: 'Chácara Bethel',
+    image: 'https://images.pexels.com/photos/1024993/pexels-photo-1024993.jpeg?auto=compress&cs=tinysrgb&w=400&h=300',
+    category: 'Família',
+    capacity: 50,
+    currentRegistrations: 12,
+    price: 150,
+    isActive: true,
+    isFeatured: false,
+    createdAt: '2024-01-01T00:00:00Z',
+    updatedAt: '2024-01-01T00:00:00Z'
+  }
+];
 
 const Events = () => {
-  const { events, updateEventRegistrations } = useEvents();
-  const { addRegistration } = useRegistrations();
+  const [events] = useState<Event[]>(mockEvents);
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const [showRegistrationForm, setShowRegistrationForm] = useState(false);
+
   const handleRegistrationClick = (event: Event) => {
     setSelectedEvent(event);
     setShowRegistrationForm(true);
   };
 
   const handleRegistrationSubmit = (registrationData: RegistrationFormData) => {
-    if (selectedEvent) {
-      addRegistration({
-        ...registrationData,
-        status: 'confirmed' as const
-      });
-
-      // Atualizar contagem de inscrições do evento
-      updateEventRegistrations(selectedEvent.id, selectedEvent.currentRegistrations + 1);
-
-      // Fechar modal e mostrar confirmação
-      setShowRegistrationForm(false);
-      setSelectedEvent(null);
-
-      alert(`Inscrição confirmada! Você receberá um e-mail de confirmação em ${registrationData.email}`);
-    }
+    // Aqui você pode implementar a lógica de inscrição, ex: chamada de API
+    setShowRegistrationForm(false);
+    setSelectedEvent(null);
+    alert(`Inscrição confirmada! Você receberá um e-mail de confirmação em ${registrationData.email}`);
   };
 
   const handleCloseRegistrationForm = () => {
@@ -67,11 +98,11 @@ const Events = () => {
                   </span>
                 </div>
               </div>
-
+              
               <div className="p-6">
                 <h3 className="text-xl font-bold text-gray-900 mb-3">{event.title}</h3>
                 <p className="text-gray-600 mb-4 leading-relaxed">{event.description}</p>
-
+                
                 <div className="space-y-2">
                   <div className="flex items-center text-gray-600">
                     <Calendar className="h-4 w-4 mr-2 text-blue-800" />
@@ -90,7 +121,7 @@ const Events = () => {
                     <span>{event.currentRegistrations} / {event.capacity} inscritos</span>
                   </div>
                 </div>
-
+                
                 <div className="mt-6 flex space-x-3">
                   <button
                     onClick={() => handleRegistrationClick(event)}

@@ -1,48 +1,48 @@
-// Constantes da aplicaÃ§Ã£o
+// Constantes da aplicação
 export const APP_CONFIG = {
   name: 'Igreja Projeto',
   version: '1.0.0',
-  description: 'Sistema de gestÃ£o de eventos e inscriÃ§Ãµes',
+  description: 'Sistema de gestão de eventos e inscrições',
   author: 'Equipe de Desenvolvimento',
   contact: {
     email: 'contato@igreja.com',
     phone: '(11) 99999-9999',
-    address: 'Rua da Igreja, 123 - Centro, SÃ£o Paulo - SP'
+    address: 'Rua da Igreja, 123 - Centro, São Paulo - SP'
   }
 } as const;
 
-// Status das inscriÃ§Ãµes
+// Status das inscrições
 export const REGISTRATION_STATUS = {
   CONFIRMED: 'confirmed',
   PENDING: 'pending',
   CANCELLED: 'cancelled'
 } as const;
 
-// RestriÃ§Ãµes alimentares
+// Restrições alimentares
 export const DIETARY_RESTRICTIONS = [
   { value: 'vegetariano', label: 'Vegetariano' },
   { value: 'vegano', label: 'Vegano' },
-  { value: 'sem-gluten', label: 'Sem GlÃºten' },
+  { value: 'sem-gluten', label: 'Sem Glúten' },
   { value: 'alergia-nozes', label: 'Alergia a Nozes' },
   { value: 'outros', label: 'Outros' }
 ] as const;
 
 // Categorias de eventos
 export const EVENT_CATEGORIES = [
-  'ConferÃªncia',
+  'Conferência',
   'Retiro',
   'Jovens',
-  'FamÃ­lia',
+  'Família',
   'Culto',
   'Especial'
 ] as const;
 
-// ConfiguraÃ§Ãµes de validaÃ§Ã£o
+// Configurações de validação
 export const VALIDATION_RULES = {
   name: {
     minLength: 2,
     maxLength: 100,
-    pattern: /^[a-zA-ZÃ -ÃºÃ€-Ãš\s]+$/
+    pattern: /^[a-zA-ZÀ-ÿ\s]+$/
   },
   email: {
     pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -57,7 +57,7 @@ export const VALIDATION_RULES = {
   }
 } as const;
 
-// ConfiguraÃ§Ãµes de UI
+// Configurações de UI
 export const UI_CONFIG = {
   colors: {
     primary: '#1e40af', // blue-800
@@ -84,31 +84,31 @@ export const UI_CONFIG = {
   }
 } as const;
 
-// ConfiguraÃ§Ãµes de paginaÃ§Ã£o
+// Configurações de paginação
 export const PAGINATION_CONFIG = {
   defaultPageSize: 10,
   pageSizeOptions: [5, 10, 25, 50, 100]
 } as const;
 
-// Mensagens padrÃ£o
+// Mensagens padrão
 export const MESSAGES = {
   success: {
-    registrationCreated: 'InscriÃ§Ã£o realizada com sucesso!',
-    registrationUpdated: 'InscriÃ§Ã£o atualizada com sucesso!',
-    registrationCancelled: 'InscriÃ§Ã£o cancelada com sucesso!',
+    registrationCreated: 'Inscrição realizada com sucesso!',
+    registrationUpdated: 'Inscrição atualizada com sucesso!',
+    registrationCancelled: 'Inscrição cancelada com sucesso!',
     dataExported: 'Dados exportados com sucesso!'
   },
   error: {
-    registrationFailed: 'Erro ao realizar inscriÃ§Ã£o. Tente novamente.',
-    validationError: 'Por favor, corrija os erros no formulÃ¡rio.',
-    notFound: 'Registro nÃ£o encontrado.',
+    registrationFailed: 'Erro ao realizar inscrição. Tente novamente.',
+    validationError: 'Por favor, corrija os erros no formulário.',
+    notFound: 'Registro não encontrado.',
     serverError: 'Erro interno do servidor. Tente novamente mais tarde.',
-    networkError: 'Erro de conexÃ£o. Verifique sua internet.'
+    networkError: 'Erro de conexão. Verifique sua internet.'
   },
   warning: {
-    eventFull: 'Este evento estÃ¡ lotado.',
-    registrationPending: 'Sua inscriÃ§Ã£o estÃ¡ pendente de confirmaÃ§Ã£o.',
-    unsavedChanges: 'VocÃª tem alteraÃ§Ãµes nÃ£o salvas.'
+    eventFull: 'Este evento está lotado.',
+    registrationPending: 'Sua inscrição está pendente de confirmação.',
+    unsavedChanges: 'Você tem alterações não salvas.'
   },
   info: {
     loading: 'Carregando...',
@@ -117,7 +117,7 @@ export const MESSAGES = {
   }
 } as const;
 
-// ConfiguraÃ§Ãµes de localStorage
+// Configurações de localStorage
 export const STORAGE_KEYS = {
   EVENTS: 'events',
   REGISTRATIONS: 'registrations',

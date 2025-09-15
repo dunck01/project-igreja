@@ -1,9 +1,7 @@
+import React from 'react';
 import { Heart, Users, BookOpen, Globe } from 'lucide-react';
-import { useSiteConfig } from '../../hooks/useSiteConfig';
 
 const About = () => {
-  const { config } = useSiteConfig();
-
   const values = [
     {
       icon: Heart,
@@ -33,11 +31,12 @@ const About = () => {
         {/* Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-            {config.about.title}
+            Quem Somos
           </h2>
           <div className="w-24 h-1 bg-yellow-500 mx-auto mb-8"></div>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            {config.about.content}
+            A Igreja O Brasil Para Cristo - OBPC Família Brasil é uma comunidade de fé 
+            comprometida em levar esperança, amor e transformação através do evangelho de Jesus Cristo.
           </p>
         </div>
 
@@ -47,24 +46,24 @@ const About = () => {
             <h3 className="text-3xl font-bold text-gray-900 mb-6">Nossa História</h3>
             <div className="space-y-4 text-gray-600 leading-relaxed">
               <p>
-                Fundada com o propósito de ser uma família espiritual que acolhe,
-                ama e transforma vidas, nossa igreja tem sido um farol de esperança
+                Fundada com o propósito de ser uma família espiritual que acolhe, 
+                ama e transforma vidas, nossa igreja tem sido um farol de esperança 
                 na comunidade há anos.
               </p>
               <p>
-                Iniciamos nossa jornada com a visão de criar um ambiente onde
-                pessoas de todas as idades e backgrounds possam encontrar seu lugar
+                Iniciamos nossa jornada com a visão de criar um ambiente onde 
+                pessoas de todas as idades e backgrounds possam encontrar seu lugar 
                 na família de Deus e crescer espiritualmente.
               </p>
               <p>
-                Hoje, continuamos firmes em nossa missão de pregar o evangelho,
+                Hoje, continuamos firmes em nossa missão de pregar o evangelho, 
                 formar discípulos e impactar nossa cidade com o amor de Cristo.
               </p>
             </div>
           </div>
           <div className="relative">
             <img
-              src={config.about.image}
+              src="https://images.pexels.com/photos/8468703/pexels-photo-8468703.jpeg?auto=compress&cs=tinysrgb&w=600&h=800"
               alt="Igreja em oração"
               className="w-full h-96 object-cover rounded-lg shadow-xl"
             />

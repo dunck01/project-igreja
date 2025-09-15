@@ -11,24 +11,30 @@ import Testimonials from './components/pages/Testimonials';
 import Contact from './components/pages/Contact';
 import Footer from './components/layout/Footer';
 import AdminDashboard from './components/registration/AdminDashboard';
-import AdminPanel from './components/admin/AdminPanel';
 import RegistrationConfirmation from './components/registration/RegistrationConfirmation';
+import LoginComponent from './components/LoginComponent';
+import { LoginResponse } from './services/authService';
 
 function App() {
-  const [currentView, setCurrentView] = useState<'main' | 'admin' | 'admin-panel' | 'confirmation'>('main');
+  const [currentView, setCurrentView] = useState<'main' | 'admin' | 'confirmation' | 'login'>('main');
+
+  const handleLogin = (response: LoginResponse) => {
+    console.log('Usuário logado:', response.user);
+    setCurrentView('admin'); // Redireciona para o dashboard após login
+  };
 
   const renderView = () => {
     switch (currentView) {
       case 'admin':
         return <AdminDashboard />;
-      case 'admin-panel':
-        return <AdminPanel />;
       case 'confirmation':
         return <RegistrationConfirmation />;
+      case 'login':
+        return <LoginComponent onLogin={handleLogin} />;
       default:
         return (
           <>
-            <Header />
+            <Header onNavigateToLogin={() => setCurrentView('login')} />
             <Hero />
             <About />
             <Services />
@@ -49,9 +55,19 @@ function App() {
       {/* Navegação Admin (temporária para demonstração) */}
       <div className="fixed top-4 right-4 z-50 bg-white p-2 rounded-lg shadow-lg border">
         <div className="flex space-x-2">
+                    <button
+            onClick={() => setCurrentView('login')}
+            className={`px-3 py-1 rounded text-sm ${
+              currentView === 'login' ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+            }`}
+          >
+            Login
+          </button>
           <button
             onClick={() => setCurrentView('main')}
-            className={`px-3 py-1 text-sm rounded ${currentView === 'main' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
+            className={`px-3 py-1 rounded text-sm ${
+              currentView === 'main' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+            }`}
           >
             Site
           </button>
@@ -59,13 +75,7 @@ function App() {
             onClick={() => setCurrentView('admin')}
             className={`px-3 py-1 text-sm rounded ${currentView === 'admin' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
           >
-            Inscrições
-          </button>
-          <button
-            onClick={() => setCurrentView('admin-panel')}
-            className={`px-3 py-1 text-sm rounded ${currentView === 'admin-panel' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
-          >
-            Personalizar
+            Admin
           </button>
           <button
             onClick={() => setCurrentView('confirmation')}

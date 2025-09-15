@@ -1,135 +1,141 @@
 import { useState, useEffect } from 'react';
-import { Event, Registration } from '../types';
-import { STORAGE_KEYS } from '../constants';
-
-// Eventos iniciais
-const initialEvents: Event[] = [
-  {
-    id: '1',
-    title: 'Conferência de Avivamento',
-    date: '15-17 de Dezembro',
-    time: '19:30',
-    location: 'Templo Principal',
-    description: 'Três noites especiais com pregadores convidados e ministração especial',
-    image: 'https://images.pexels.com/photos/976866/pexels-photo-976866.jpeg?auto=compress&cs=tinysrgb&w=400&h=300',
-    category: 'Conferência',
-    capacity: 200,
-    currentRegistrations: 0
-  },
-  {
-    id: '2',
-    title: 'Retiro de Casais',
-    date: '25-26 de Janeiro',
-    time: '15:00',
-    location: 'Chácara Bethel',
-    description: 'Fim de semana especial para fortalecer os relacionamentos matrimoniais',
-    image: 'https://images.pexels.com/photos/1024993/pexels-photo-1024993.jpeg?auto=compress&cs=tinysrgb&w=400&h=300',
-    category: 'Retiro',
-    capacity: 50,
-    currentRegistrations: 0
-  },
-  {
-    id: '3',
-    title: 'Acampamento Jovem',
-    date: '10-12 de Fevereiro',
-    time: '14:00',
-    location: 'Camping Vale Verde',
-    description: 'Acampamento especial para jovens com atividades, louvor e muito aprendizado',
-    image: 'https://images.pexels.com/photos/1157255/pexels-photo-1157255.jpeg?auto=compress&cs=tinysrgb&w=400&h=300',
-    category: 'Jovens',
-    capacity: 100,
-    currentRegistrations: 0
-  },
-  {
-    id: '4',
-    title: 'Dia da Família',
-    date: '20 de Abril',
-    time: '10:00',
-    location: 'Parque da Cidade',
-    description: 'Dia especial de confraterniza��o com toda a fam�lia da igreja',
-    image: 'https://images.pexels.com/photos/1128318/pexels-photo-1128318.jpeg?auto=compress&cs=tinysrgb&w=400&h=300',
-    category: 'Fam�lia',
-    capacity: 300,
-    currentRegistrations: 0
-  }
-];
+import { Event, Registration, RegistrationStatus } from '../types';
+import { eventService, registrationService } from '../services';
 
 export const useEvents = () => {
   const [events, setEvents] = useState<Event[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    // Carregar eventos do localStorage ou usar iniciais
-    const storedEvents = localStorage.getItem(STORAGE_KEYS.EVENTS);
-    if (storedEvents) {
-      setEvents(JSON.parse(storedEvents));
-    } else {
-      setEvents(initialEvents);
-      localStorage.setItem(STORAGE_KEYS.EVENTS, JSON.stringify(initialEvents));
+  const fetchEvents = async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      const response = await eventService.getEvents({ active: true });
+      setEvents(response.data);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Erro ao carregar eventos');
+      console.error('Erro ao carregar eventos:', err);
+    } finally {
+      setIsLoading(false);
     }
-  }, []);
-
-  const updateEventRegistrations = (eventId: string, newCount: number) => {
-    setEvents(prevEvents =>
-      prevEvents.map(event =>
-        event.id === eventId
-          ? { ...event, currentRegistrations: newCount }
-          : event
-      )
-    );
   };
 
   useEffect(() => {
-    if (events.length > 0) {
-      localStorage.setItem(STORAGE_KEYS.EVENTS, JSON.stringify(events));
-    }
-  }, [events]);
+    fetchEvents();
+  }, []);
 
-  return { events, updateEventRegistrations };
+  const updateEventRegistrations = async (eventId: string, count: number) => {
+    try {
+      // Find the event and update its registration count
+      setEvents(prevEvents =>
+        prevEvents.map(event =>
+          event.id === eventId
+            ? { ...event, currentRegistrations: count }
+            : event
+        )
+      );
+    } catch (err) {
+      console.error('Erro ao atualizar contador de inscrições:', err);
+    }
+  };
+
+  return {
+    events,
+    isLoading,
+    error,
+    updateEventRegistrations,
+    refetch: fetchEvents
+  };
 };
 
 export const useRegistrations = () => {
   const [registrations, setRegistrations] = useState<Registration[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const storedRegistrations = localStorage.getItem(STORAGE_KEYS.REGISTRATIONS);
-    if (storedRegistrations) {
-      setRegistrations(JSON.parse(storedRegistrations));
+  const addRegistration = async (registrationData: Omit<Registration, 'id' | 'createdAt' | 'updatedAt' | 'status'>) => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      
+      const response = await registrationService.createRegistration({
+        eventId: registrationData.eventId,
+        name: registrationData.name,
+        email: registrationData.email,
+        phone: registrationData.phone,
+        organization: registrationData.organization,
+        dietaryRestrictions: registrationData.dietaryRestrictions,
+        accessibilityNeeds: registrationData.accessibilityNeeds,
+      });
+
+      // Add to local state
+      setRegistrations(prev => [...prev, response.registration]);
+      
+      return response.registration;
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Erro ao criar inscrição';
+      setError(errorMessage);
+      throw new Error(errorMessage);
+    } finally {
+      setIsLoading(false);
     }
-  }, []);
-
-  const addRegistration = (registration: Omit<Registration, 'id' | 'createdAt'>) => {
-    const newRegistration: Registration = {
-      ...registration,
-      id: Date.now().toString(),
-      createdAt: new Date().toISOString()
-    };
-
-    setRegistrations(prev => [...prev, newRegistration]);
-    return newRegistration;
   };
 
-  const updateRegistrationStatus = (id: string, status: Registration['status']) => {
-    setRegistrations(prev =>
-      prev.map(reg =>
-        reg.id === id ? { ...reg, status } : reg
-      )
-    );
+  const updateRegistrationStatus = async (id: string, status: RegistrationStatus) => {
+    try {
+      setError(null);
+      const updatedRegistration = await registrationService.updateRegistrationStatus(id, { status });
+      
+      setRegistrations(prev =>
+        prev.map(reg => (reg.id === id ? updatedRegistration : reg))
+      );
+      
+      return updatedRegistration;
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Erro ao atualizar status';
+      setError(errorMessage);
+      throw new Error(errorMessage);
+    }
   };
 
-  const deleteRegistration = (id: string) => {
-    setRegistrations(prev => prev.filter(reg => reg.id !== id));
+  const deleteRegistration = async (id: string) => {
+    try {
+      setError(null);
+      await registrationService.deleteRegistration(id);
+      
+      setRegistrations(prev => prev.filter(reg => reg.id !== id));
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Erro ao excluir inscrição';
+      setError(errorMessage);
+      throw new Error(errorMessage);
+    }
   };
 
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEYS.REGISTRATIONS, JSON.stringify(registrations));
-  }, [registrations]);
+  const fetchRegistrations = async (query?: { eventId?: string; status?: string }) => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      const response = await registrationService.getRegistrations(query);
+      setRegistrations(response.data);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Erro ao carregar inscrições');
+      console.error('Erro ao carregar inscrições:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return {
     registrations,
+    isLoading,
+    error,
     addRegistration,
     updateRegistrationStatus,
-    deleteRegistration
+    deleteRegistration,
+    fetchRegistrations
   };
 };
-export type { Event };
 
+// Export para compatibilidade com o código existente
+export type { Event, Registration, RegistrationStatus } from '../types';

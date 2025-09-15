@@ -1,0 +1,187 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      Role     @default(ADMIN)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Event {
+  id                    String         @id @default(cuid())
+  title                 String
+  slug                  String         @unique
+  description           String
+  shortDescription      String?
+  date                  DateTime
+  time                  String
+  location              String
+  image                 String?
+  category              String
+  capacity              Int
+  currentRegistrations  Int            @default(0)
+  price                 Float?         @default(0)
+  isActive              Boolean        @default(true)
+  isFeatured            Boolean        @default(false)
+  tags                  String?        // JSON array of tags
+  customFields          String?        // JSON for custom form fields
+  createdAt             DateTime       @default(now())
+  updatedAt             DateTime       @updatedAt
+  
+  registrations         Registration[]
+  eventImages          EventImage[]
+
+  @@map("events")
+}
+
+model Registration {
+  id                   String             @id @default(cuid())
+  eventId              String
+  name                 String
+  email                String
+  phone                String
+  organization         String?
+  dietaryRestrictions  String?
+  accessibilityNeeds   String?
+  customData           String?            // JSON for custom fields
+  status               RegistrationStatus @default(PENDING)
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+  
+  event                Event              @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@map("registrations")
+}
+
+model EventImage {
+  id        String   @id @default(cuid())
+  eventId   String
+  url       String
+  alt       String?
+  isMain    Boolean  @default(false)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@map("event_images")
+}
+
+model SiteConfig {
+  id             String   @id @default(cuid())
+  key            String   @unique
+  value          String
+  type           ConfigType
+  category       String   @default("general")
+  description    String?
+  isPublic       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@map("site_configs")
+}
+
+model Upload {
+  id           String     @id @default(cuid())
+  filename     String
+  originalName String
+  mimetype     String
+  size         Int
+  path         String
+  url          String
+  category     String?    @default("general")
+  isUsed       Boolean    @default(false)
+  createdAt    DateTime   @default(now())
+
+  @@map("uploads")
+}
+
+model Family {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  image       String?
+  members     String   // JSON array of family members
+  isActive    Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("families")
+}
+
+model MediaItem {
+  id          String    @id @default(cuid())
+  title       String
+  description String?
+  url         String
+  thumbnail   String?
+  type        MediaType
+  category    String?
+  duration    String?   // For videos
+  isActive    Boolean   @default(true)
+  isFeatured  Boolean   @default(false)
+  viewCount   Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("media_items")
+}
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  name      String
+  message   String
+  image     String?
+  position  String?
+  isActive  Boolean  @default(true)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("testimonials")
+}
+
+enum Role {
+  ADMIN
+  MODERATOR
+}
+
+enum RegistrationStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  WAITLIST
+}
+
+enum ConfigType {
+  TEXT
+  NUMBER
+  BOOLEAN
+  JSON
+  COLOR
+  IMAGE
+  URL
+}
+
+enum MediaType {
+  VIDEO
+  AUDIO
+  IMAGE
+  DOCUMENT
+}

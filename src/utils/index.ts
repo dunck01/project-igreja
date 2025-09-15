@@ -1,6 +1,6 @@
 import { VALIDATION_RULES } from '../constants';
 
-// Utilit√°rios de valida√ß√£o
+// Utilit·rios de validaÁ„o
 export const validation = {
   isValidEmail: (email: string): boolean => {
     return VALIDATION_RULES.email.pattern.test(email);
@@ -32,13 +32,13 @@ export const validation = {
 
   validateRequired: (value: string, fieldName: string): string | null => {
     if (!value || value.trim() === '') {
-      return `${fieldName} √© obrigat√≥rio`;
+      return `${fieldName} È obrigatÛrio`;
     }
     return null;
   }
 };
 
-// Utilit√°rios de formata√ß√£o
+// Utilit·rios de formataÁ„o
 export const format = {
   date: (dateString: string): string => {
     try {
@@ -89,7 +89,7 @@ export const format = {
   }
 };
 
-// Utilit√°rios de array
+// Utilit·rios de array
 export const array = {
   groupBy: <T, K extends keyof T>(array: T[], key: K): Record<string, T[]> => {
     return array.reduce((groups, item) => {
@@ -127,7 +127,7 @@ export const array = {
   }
 };
 
-// Utilit√°rios de objeto
+// Utilit·rios de objeto
 export const object = {
   isEmpty: (obj: Record<string, unknown>): boolean => {
     return Object.keys(obj).length === 0;
@@ -162,7 +162,7 @@ export const object = {
   }
 };
 
-// Utilit√°rios de localStorage
+// Utilit·rios de localStorage
 export const storage = {
   get: <T>(key: string, defaultValue: T | null = null): T | null => {
     try {
@@ -198,7 +198,7 @@ export const storage = {
   }
 };
 
-// Utilit√°rios de debounce e throttle
+// Utilit·rios de debounce e throttle
 export const debounce = <T extends (...args: unknown[]) => unknown>(
   func: T,
   wait: number
@@ -224,7 +224,7 @@ export const throttle = <T extends (...args: unknown[]) => unknown>(
   };
 };
 
-// Utilit√°rios de string
+// Utilit·rios de string
 export const string = {
   slugify: (str: string): string => {
     return str
@@ -253,7 +253,7 @@ export const string = {
   }
 };
 
-// Utilit√°rios de URL
+// Utilit·rios de URL
 export const url = {
   getQueryParam: (param: string): string | null => {
     const urlParams = new URLSearchParams(window.location.search);
