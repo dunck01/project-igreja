@@ -158,17 +158,26 @@ class UploadService {
     );
   }
 
-  async getUnusedFiles(): Promise<Upload[]> {
-    const response = await this.getUploads({ limit: 1000 });
-    return response.data.filter(upload => !upload.isUsed);
-  }
-
   getImageUrl(upload: Upload): string {
     if (upload.url.startsWith('http')) {
       return upload.url;
     }
     return `${httpClient['baseURL'].replace('/api/v1', '')}${upload.url}`;
   }
+
+  async getUnusedFiles(): Promise<Upload[]> {
+    const response = await this.getUploads({ limit: 1000 });
+    return response.data.filter(upload => !upload.isUsed);
+  }
+
+  formatFileSize(bytes: number): string {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  }
 }
 
 export const uploadService = new UploadService();
+export default uploadService;

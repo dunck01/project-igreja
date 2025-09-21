@@ -1,144 +1,182 @@
-# Sistema de Inscrição para Eventos - Igreja
+# Sistema de InscriÃ§Ã£o para Eventos - Igreja
 
-Este projeto implementa um sistema completo de inscrição para eventos da igreja, desenvolvido com **TypeScript** e seguindo as melhores práticas de desenvolvimento frontend.
+Este projeto implementa um sistema completo de inscriÃ§Ã£o para eventos da igreja, desenvolvido com **TypeScript** e seguindo as melhores prÃ¡ticas de desenvolvimento full-stack.
 
-## ?? Arquitetura e Estrutura
+## ğŸ—ï¸ Arquitetura e Estrutura
 
 ### Estrutura de Pastas Organizada
 
 ```
-src/
-??? components/
-?   ??? layout/           # Componentes de layout (Header, Footer, Hero)
-?   ??? pages/            # Componentes de página (About, Services, Events, etc.)
-?   ??? registration/     # Sistema de inscrição
-?   ?   ??? RegistrationForm.tsx
-?   ?   ??? AdminDashboard.tsx
-?   ?   ??? RegistrationConfirmation.tsx
-?   ??? ui/               # Componentes reutilizáveis (futuro)
-??? hooks/                # Custom hooks
-?   ??? useEventRegistration.ts
-??? types/                # Definições TypeScript
-?   ??? index.ts
-??? utils/                # Utilitários e helpers
-?   ??? index.ts
-??? constants/            # Constantes e configurações
-?   ??? index.ts
-??? styles/               # Estilos organizados
-?   ??? variables.css     # Variáveis CSS customizadas
-?   ??? components/       # Estilos de componentes (futuro)
-?   ??? layout/          # Estilos de layout (futuro)
-?   ??? pages/           # Estilos de páginas (futuro)
-??? assets/              # Recursos estáticos (imagens, ícones)
+Client/                   # Frontend React + TypeScript
+â”œâ”€â”€ src/
+â”‚   â”œâ”€â”€ components/
+â”‚   â”‚   â”œâ”€â”€ layout/           # Componentes de layout (Header, Footer, Hero)
+â”‚   â”‚   â”œâ”€â”€ pages/            # Componentes de pÃ¡gina (About, Services, Events, etc.)
+â”‚   â”‚   â”œâ”€â”€ registration/     # Sistema de inscriÃ§Ã£o
+â”‚   â”‚   â”‚   â”œâ”€â”€ RegistrationForm.tsx
+â”‚   â”‚   â”‚   â”œâ”€â”€ AdminDashboard.tsx
+â”‚   â”‚   â”‚   â””â”€â”€ RegistrationConfirmation.tsx
+â”‚   â”‚   â””â”€â”€ admin/            # Componentes administrativos
+â”‚   â”œâ”€â”€ hooks/                # Custom hooks
+â”‚   â”‚   â””â”€â”€ useEventRegistration.ts
+â”‚   â”œâ”€â”€ types/                # DefiniÃ§Ãµes TypeScript
+â”‚   â”‚   â””â”€â”€ index.ts
+â”‚   â”œâ”€â”€ utils/                # UtilitÃ¡rios e helpers
+â”‚   â”‚   â””â”€â”€ index.ts
+â”‚   â”œâ”€â”€ constants/            # Constantes e configuraÃ§Ãµes
+â”‚   â”‚   â””â”€â”€ index.ts
+â”‚   â”œâ”€â”€ services/             # ServiÃ§os para API
+â”‚   â”‚   â”œâ”€â”€ authService.ts
+â”‚   â”‚   â”œâ”€â”€ eventService.ts
+â”‚   â”‚   â””â”€â”€ uploadService.ts
+â”‚   â”œâ”€â”€ styles/               # Estilos organizados
+â”‚   â”‚   â””â”€â”€ variables.css     # VariÃ¡veis CSS customizadas
+â”‚   â””â”€â”€ contexts/             # React Contexts
+â”‚       â””â”€â”€ AuthContext.tsx
+â”œâ”€â”€ Dockerfile
+â””â”€â”€ nginx.conf
+
+Server/                   # Backend Node.js + Express
+â”œâ”€â”€ api/
+â”‚   â”œâ”€â”€ src/
+â”‚   â”‚   â”œâ”€â”€ controllers/      # Controladores da API
+â”‚   â”‚   â”œâ”€â”€ routes/           # Rotas da API
+â”‚   â”‚   â”œâ”€â”€ services/         # LÃ³gica de negÃ³cio
+â”‚   â”‚   â”œâ”€â”€ middleware/       # Middlewares
+â”‚   â”‚   â””â”€â”€ config/           # ConfiguraÃ§Ãµes
+â”‚   â”œâ”€â”€ prisma/               # Schema e migrations do banco
+â”‚   â”‚   â”œâ”€â”€ schema.prisma
+â”‚   â”‚   â””â”€â”€ seed.ts
+â”‚   â”œâ”€â”€ package.json
+â”‚   â””â”€â”€ Dockerfile
 ```
 
-## ?? Tecnologias Utilizadas
+## ğŸš€ Tecnologias Utilizadas
 
+### Frontend
 - **React 18** com **TypeScript**
 - **Vite** - Build tool e dev server
-- **Tailwind CSS** - Framework CSS utilitário
-- **Lucide React** - Biblioteca de ícones
-- **LocalStorage** - Persistência local de dados
+- **Tailwind CSS** - Framework CSS utilitÃ¡rio
+- **Lucide React** - Biblioteca de Ã­cones
+- **React Router** - Roteamento
 
-## Como Usar
+### Backend
+- **Node.js** com **Express**
+- **TypeScript**
+- **Prisma** - ORM para banco de dados
+- **MongoDB** - Banco de dados
+- **JWT** - AutenticaÃ§Ã£o
+- **Cloudinary** - Upload de imagens
 
-### 1. Visualizar Eventos
-- Acesse a página principal do site
-- Navegue até a seção "Próximos Eventos"
-- Veja informações sobre cada evento incluindo vagas disponíveis
+### DevOps
+- **Docker** - ContainerizaÃ§Ã£o
+- **Docker Compose** - OrquestraÃ§Ã£o de containers
+- **Nginx** - Servidor web para produÃ§Ã£o
 
-### 2. Fazer Inscrição
-- Clique no botão "Inscrever-se" em qualquer evento
-- Preencha o formulário com suas informações
-- Clique em "Confirmar Inscrição"
-- Receberá uma confirmação imediata
+## ğŸ“‚ Como Executar
 
-### 3. Dashboard Administrativo
-- Clique no botão "Admin" no canto superior direito
-- Visualize todas as inscrições
-- Use filtros para encontrar inscrições específicas
-- Altere status das inscrições
-- Exporte dados para CSV
+### Desenvolvimento Local
 
-### 4. Página de Confirmação
-- Clique no botão "Confirmação" para visualizar uma inscrição
-- Veja detalhes completos da inscrição
-- Edite informações se necessário
-- Imprima ou cancele a inscrição
+1. **Instalar dependÃªncias:**
+```bash
+# Frontend
+cd Client
+npm install
 
-## Campos do Formulário
+# Backend
+cd ../Server/api
+npm install
+```
 
-### Obrigatórios
-- **Nome Completo**: Nome do participante
-- **E-mail**: Endereço de e-mail válido
-- **Telefone**: Número de telefone com DDD
+2. **Configurar variÃ¡veis de ambiente:**
+```bash
+# Server/api/.env
+DATABASE_URL="sua-url-do-mongodb"
+JWT_SECRET="seu-jwt-secret"
+CLOUDINARY_CLOUD_NAME="seu-cloudinary-name"
+CLOUDINARY_API_KEY="sua-api-key"
+CLOUDINARY_API_SECRET="seu-api-secret"
+```
 
-### Opcionais
-- **Organização/Empresa**: Empresa ou organização que representa
-- **Restrições Alimentares**: Vegetariano, vegano, sem glúten, alergia a nozes, outros
-- **Necessidades de Acessibilidade**: Descrição de necessidades especiais
+3. **Executar em desenvolvimento:**
+```bash
+# Backend (porta 3001)
+cd Server/api
+npm run dev
 
-## Status das Inscrições
+# Frontend (porta 3000)
+cd Client
+npm run dev
+```
 
-- **Confirmada**: Inscrição ativa e confirmada
-- **Pendente**: Aguardando confirmação ou processamento
-- **Cancelada**: Inscrição cancelada pelo participante ou organizador
+### Usando Docker
 
-## Capacidade dos Eventos
+```bash
+# Executar toda a aplicaÃ§Ã£o
+docker-compose up -d
 
-Cada evento tem uma capacidade máxima definida:
-- Conferência de Avivamento: 200 vagas
-- Retiro de Casais: 50 vagas
-- Acampamento Jovem: 100 vagas
-- Dia da Família: 300 vagas
+# Ver logs
+docker-compose logs -f
 
-## Validações Implementadas
+# Parar aplicaÃ§Ã£o
+docker-compose down
+```
 
-- **E-mail**: Formato válido (usuario@dominio.com)
-- **Telefone**: Formato brasileiro ((XX) XXXXX-XXXX)
-- **Campos obrigatórios**: Verificação de preenchimento
-- **Capacidade**: Controle de vagas disponíveis
+## ğŸ”§ Scripts DisponÃ­veis
 
-## Próximos Passos (Backend)
+### Frontend (Client/)
+- `npm run dev` - Servidor de desenvolvimento
+- `npm run build` - Build para produÃ§Ã£o
+- `npm run preview` - Preview do build
+- `npm run lint` - Linting do cÃ³digo
 
-Para uma implementação completa em produção, recomenda-se:
+### Backend (Server/api/)
+- `npm run dev` - Servidor de desenvolvimento com nodemon
+- `npm run build` - Compilar TypeScript
+- `npm run start` - Executar versÃ£o compilada
+- `npm run db:generate` - Gerar Prisma Client
+- `npm run db:push` - Sincronizar schema com DB
+- `npm run db:studio` - Abrir Prisma Studio
+- `npm run db:seed` - Popular banco com dados iniciais
 
-1. **Backend API**: Node.js/Express ou similar
-2. **Banco de dados**: PostgreSQL, MySQL ou MongoDB
-3. **Autenticação**: Sistema de login para administradores
-4. **E-mails**: Integração com serviço de e-mail (SendGrid, Mailgun)
-5. **Pagamentos**: Integração com gateways de pagamento
-6. **Notificações**: Sistema de notificações push/webhooks
+## ğŸ“‹ Funcionalidades
 
-## Tecnologias Utilizadas
+### UsuÃ¡rios
+- âœ… VisualizaÃ§Ã£o de eventos
+- âœ… InscriÃ§Ã£o em eventos
+- âœ… ConfirmaÃ§Ã£o de inscriÃ§Ã£o
+- âœ… PÃ¡ginas institucionais (Sobre, ServiÃ§os, Contato)
 
-- **React 18**: Framework frontend
-- **TypeScript**: Tipagem estática
-- **Tailwind CSS**: Estilização
-- **Lucide React**: Ícones
-- **LocalStorage**: Persistência local
-- **Vite**: Build tool e dev server
+### Administradores
+- âœ… Dashboard administrativo
+- âœ… GestÃ£o de eventos
+- âœ… GestÃ£o de inscriÃ§Ãµes
+- âœ… Upload de imagens
+- âœ… ConfiguraÃ§Ãµes do site
+- âœ… Sistema de autenticaÃ§Ã£o
 
-## Como Executar
+## ğŸŒ Endpoints da API
 
-1. Instale as dependências:
-   ```bash
-   npm install
-   ```
+### AutenticaÃ§Ã£o
+- `POST /api/v1/auth/login` - Login de administrador
+- `POST /api/v1/auth/refresh` - Renovar token
 
-2. Execute o servidor de desenvolvimento:
-   ```bash
-   npm run dev
-   ```
+### Eventos
+- `GET /api/v1/events` - Listar eventos
+- `POST /api/v1/events` - Criar evento
+- `PUT /api/v1/events/:id` - Atualizar evento
+- `DELETE /api/v1/events/:id` - Deletar evento
 
-3. Abra o navegador em `http://localhost:5173`
+### InscriÃ§Ãµes
+- `POST /api/v1/registrations` - Criar inscriÃ§Ã£o
+- `GET /api/v1/registrations` - Listar inscriÃ§Ãµes
+- `PUT /api/v1/registrations/:id` - Atualizar inscriÃ§Ã£o
 
-## Testando o Sistema
+### Uploads
+- `POST /api/v1/uploads` - Upload de arquivos
+- `GET /api/v1/uploads` - Listar uploads
+- `DELETE /api/v1/uploads/:id` - Deletar upload
 
-1. **Inscrição**: Tente se inscrever em um evento
-2. **Admin**: Acesse o dashboard e veja a inscrição criada
-3. **Confirmação**: Visualize os detalhes da inscrição
-4. **Edição**: Teste editar informações no modo de confirmação
-5. **Cancelamento**: Teste cancelar uma inscrição
+## ğŸ“„ LicenÃ§a
 
-O sistema está totalmente funcional para demonstração e pode ser facilmente adaptado para produção com a implementação do backend.
+Este projeto estÃ¡ sob a licenÃ§a MIT.
