@@ -17,6 +17,10 @@ import eventRoutes from './routes/events';
 import registrationRoutes from './routes/registrations';
 import configRoutes from './routes/config';
 import uploadRoutes from './routes/uploads';
+import familiesRoutes from './routes/families';
+import testimonialsRoutes from './routes/testimonials';
+import mediaRoutes from './routes/media';
+import servicesRoutes from './routes/services';
 
 // Carregar variáveis de ambiente
 dotenv.config();
@@ -72,6 +76,10 @@ app.use(`${API_PREFIX}/events`, eventRoutes);
 app.use(`${API_PREFIX}/registrations`, registrationRoutes);
 app.use(`${API_PREFIX}/config`, configRoutes);
 app.use(`${API_PREFIX}/uploads`, uploadRoutes);
+app.use(`${API_PREFIX}/families`, familiesRoutes);
+app.use(`${API_PREFIX}/testimonials`, testimonialsRoutes);
+app.use(`${API_PREFIX}/media`, mediaRoutes);
+app.use(`${API_PREFIX}/services`, servicesRoutes);
 
 // Health check
 app.get('/health', (req, res) => {
@@ -93,7 +101,11 @@ app.get('/', (req, res) => {
       events: `${API_PREFIX}/events`,
       registrations: `${API_PREFIX}/registrations`,
       config: `${API_PREFIX}/config`,
-      uploads: `${API_PREFIX}/uploads`
+      uploads: `${API_PREFIX}/uploads`,
+      families: `${API_PREFIX}/families`,
+      testimonials: `${API_PREFIX}/testimonials`,
+      media: `${API_PREFIX}/media`,
+      services: `${API_PREFIX}/services`
     }
   });
 });

@@ -97,16 +97,24 @@ model SiteConfig {
 }
 
 model Upload {
-  id           String     @id @default(auto()) @map("_id") @db.ObjectId
-  filename     String
-  originalName String
-  mimetype     String
-  size         Int
-  path         String
-  url          String
-  category     String?    @default("general")
-  isUsed       Boolean    @default(false)
-  createdAt    DateTime   @default(now())
+  id                 String     @id @default(auto()) @map("_id") @db.ObjectId
+  filename           String
+  originalName       String
+  mimetype           String
+  size               Int
+  path               String
+  url                String
+  category           String?    @default("general")
+  isUsed             Boolean    @default(false)
+  
+  // Cloudinary specific fields
+  cloudinaryPublicId String?
+  cloudinaryUrl      String?
+  width              Int?
+  height             Int?
+  format             String?
+  
+  createdAt          DateTime   @default(now())
 
   @@map("uploads")
 }
@@ -155,6 +163,32 @@ model Testimonial {
   updatedAt DateTime @updatedAt
 
   @@map("testimonials")
+}
+
+model Service {
+  id                    String   @id @default(auto()) @map("_id") @db.ObjectId
+  name                  String
+  description           String?
+  dayOfWeek             Int      // 0-6 (Domingo a Sábado)
+  time                  String   // HH:MM format
+  duration              Int      @default(120) // em minutos
+  location              String
+  address               String?
+  pastor                String
+  ministryLeader        String?
+  capacity              Int?
+  isRecurring           Boolean  @default(true)
+  isActive              Boolean  @default(true)
+  isFeatured            Boolean  @default(false)
+  contactPhone          String?
+  contactEmail          String?
+  notes                 String?
+  specialInstructions   String?
+  attendanceCount       Int      @default(0)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@map("services")
 }
 
 enum Role {

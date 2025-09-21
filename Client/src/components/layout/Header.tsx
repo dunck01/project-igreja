@@ -1,11 +1,7 @@
 import { useState } from 'react';
 import { Menu, X, Church, ChevronDown } from 'lucide-react';
 
-interface HeaderProps {
-  onNavigateToLogin?: () => void;
-}
-
-const Header = ({ onNavigateToLogin }: HeaderProps) => {
+const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
@@ -107,12 +103,12 @@ const Header = ({ onNavigateToLogin }: HeaderProps) => {
               ))}
 
               {/* Admin Button */}
-              <button
-                onClick={onNavigateToLogin}
+              <a
+                href="/admin"
                 className="bg-blue-800 hover:bg-blue-900 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200"
               >
                 Admin
-              </button>
+              </a>
             </div>
           </nav>
 
@@ -164,15 +160,13 @@ const Header = ({ onNavigateToLogin }: HeaderProps) => {
 
               {/* Admin Button for Mobile */}
               <div className="border-t border-gray-200 pt-2 mt-2">
-                <button
-                  onClick={() => {
-                    onNavigateToLogin?.();
-                    setIsMenuOpen(false);
-                  }}
-                  className="w-full text-left bg-blue-800 hover:bg-blue-900 text-white px-6 py-2 text-base font-medium transition-colors duration-200 rounded-lg mx-3"
+                <a
+                  href="/admin"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="w-full block text-center bg-blue-800 hover:bg-blue-900 text-white px-6 py-2 text-base font-medium transition-colors duration-200 rounded-lg mx-3"
                 >
                   Admin
-                </button>
+                </a>
               </div>
             </div>
           </div>

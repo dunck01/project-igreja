@@ -1,9 +1,7 @@
 import { Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import { AuthRequest } from '../middleware/auth';
-import sharp from 'sharp';
-import path from 'path';
-import fs from 'fs';
+import { cloudinaryService } from '../services/cloudinaryService';
 
 const prisma = new PrismaClient();
 
@@ -14,53 +12,65 @@ export const uploadFile = async (req: AuthRequest, res: Response) => {
       return;
     }
 
-    const { category = 'general' } = req.body;
+    const { category = 'general', configType } = req.body;
     const file = req.file;
 
-    // Se for imagem, otimizar com sharp
-    let processedPath = file.path;
-    if (file.mimetype.startsWith('image/')) {
-      const outputPath = path.join(
-        path.dirname(file.path),
-        `optimized-${file.filename}`
-      );
+    let cloudinaryResult;
 
-      await sharp(file.path)
-        .resize(1920, 1080, { 
-          fit: 'inside', 
-          withoutEnlargement: true 
-        })
-        .jpeg({ quality: 85 })
-        .png({ quality: 85 })
-        .webp({ quality: 85 })
-        .toFile(outputPath);
-
-      // Remover arquivo original e usar o otimizado
-      fs.unlinkSync(file.path);
-      processedPath = outputPath;
+    // Escolher método de upload baseado na categoria
+    if (category === 'config' && configType) {
+      cloudinaryResult = await cloudinaryService.uploadConfigImage(file.buffer, configType);
+    } else if (category === 'gallery') {
+      cloudinaryResult = await cloudinaryService.uploadGalleryImage(file.buffer, 'general');
+    } else if (file.mimetype.startsWith('image/')) {
+      cloudinaryResult = await cloudinaryService.uploadImage(file.buffer, {
+        folder: `igreja-uploads/${category}`,
+        tags: [category],
+      });
+    } else {
+      cloudinaryResult = await cloudinaryService.uploadFromBuffer(file.buffer, {
+        folder: `igreja-uploads/${category}`,
+        tags: [category],
+      });
     }
 
     // Salvar no banco
     const upload = await prisma.upload.create({
       data: {
-        filename: path.basename(processedPath),
+        filename: cloudinaryResult.public_id,
         originalName: file.originalname,
         mimetype: file.mimetype,
-        size: file.size,
-        path: processedPath,
-        url: `/uploads/${category}/${path.basename(processedPath)}`,
+        size: cloudinaryResult.bytes,
+        path: cloudinaryResult.public_id,
+        url: cloudinaryResult.secure_url,
         category,
-        isUsed: false
+        isUsed: false,
+        cloudinaryPublicId: cloudinaryResult.public_id,
+        cloudinaryUrl: cloudinaryResult.secure_url,
+        width: cloudinaryResult.width,
+        height: cloudinaryResult.height,
+        format: cloudinaryResult.format
       }
     });
 
+    // Gerar URLs responsivas se for imagem
+    const responsiveUrls = file.mimetype.startsWith('image/') 
+      ? cloudinaryService.generateResponsiveUrls(cloudinaryResult.public_id)
+      : null;
+
     res.status(201).json({
       message: 'Arquivo enviado com sucesso',
-      upload
+      upload: {
+        ...upload,
+        responsiveUrls
+      }
     });
   } catch (error) {
     console.error('Erro no upload:', error);
-    res.status(500).json({ error: 'Erro interno do servidor' });
+    res.status(500).json({ 
+      error: 'Erro interno do servidor',
+      details: error instanceof Error ? error.message : 'Erro desconhecido'
+    });
   }
 };
 
@@ -126,9 +136,14 @@ export const deleteUpload = async (req: AuthRequest, res: Response) => {
       return;
     }
 
-    // Remover arquivo físico
-    if (fs.existsSync(upload.path)) {
-      fs.unlinkSync(upload.path);
+    // Remover arquivo do Cloudinary
+    if (upload.cloudinaryPublicId) {
+      try {
+        await cloudinaryService.deleteFile(upload.cloudinaryPublicId);
+      } catch (cloudinaryError) {
+        console.error('Erro ao deletar do Cloudinary:', cloudinaryError);
+        // Continua com a exclusão do banco mesmo se falhar no Cloudinary
+      }
     }
 
     // Remover do banco
